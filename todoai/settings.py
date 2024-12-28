@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -23,11 +24,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-56re7ryfw1p^ah53vpp)ai4)tnc!#$r7=&788%taui9x5bjxta"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get("DEBUG", "False")
 
 # ALLOWED_HOSTS = ['10.0.2.2', 'localhost', '127.0.0.1','.vercel.app','.now.sh']
 
-ALLOWED_HOSTS = ['*']  # Replace with your domain for production
+ALLOWED_HOSTS = ["*"]  # Replace with your domain for production
 
 
 # Application definition
@@ -87,7 +88,6 @@ DATABASES = {
 }
 
 
-
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
@@ -109,12 +109,15 @@ AUTH_PASSWORD_VALIDATORS = [
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.AllowAny",  # Or 'rest_framework.permissions.IsAuthenticated'
-    ]
+    ],
+    "DEFAULT_RENDERER_CLASSES": [
+        "rest_framework.renderers.JSONRenderer",  # Only return JSON responses
+    ],
 }
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:8000",  # Django development server
-    "http://127.0.0.1:8000", # Local IP
+    "http://127.0.0.1:8000",  # Local IP
     "http://10.0.2.2:8000",  # Android Emulator IP mapping
 ]
 
@@ -142,4 +145,4 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles_build", 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles_build", "static")
